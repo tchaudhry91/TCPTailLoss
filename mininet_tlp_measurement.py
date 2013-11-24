@@ -3,6 +3,7 @@ from mininet.net import Mininet
 from mininet.util import dumpNodeConnections
 from mininet.log import setLogLevel 
 from mininet.node import Node
+from mininet.cli import CLI
 
 class BasicTopology(Topo):
     def __init__(self, **opts):
@@ -17,14 +18,16 @@ class BasicTopology(Topo):
 def configureHosts(net):
     for h in net.hosts:
         if h.name == "hostA":
-            h.cmdPrint("ifconfig hostA-eth0 192.168.1.2 netmask 255.255.255.0")
+            h.setIP(intf="hostA-eth0",ip="192.168.1.2/24")
 	    h.cmdPrint("route add default gw 192.168.1.1")
         elif h.name == "hostB":
-	    h.cmdPrint("ifconfig hostB-eth0 192.168.1.1 netmask 255.255.255.0")
-            h.cmdPrint("ifconfig hostB-eth1 192.168.2.1 netmask 255.255.255.0")
+	    h.setIP(intf="hostB-eth0", ip="192.168.1.1/24")
+            h.setIP(intf="hostB-eth1", ip="192.168.2.1/24")
 	    h.cmdPrint("echo 1 > /proc/sys/net/ipv4/ip_forward") 
+	    h.setHostRoute(ip="192.168.1.2/24",intf="hostB-eth0")
+	    h.setHostRoute(ip="192.168.2.2/24",intf="hostB-eth1")
         elif h.name == "hostC":
-            h.cmdPrint("ifconfig hostC-eth0 192.168.2.2 netmask 255.255.255.0")
+            h.setIP(intf="hostC-eth0", ip="192.168.2.2/24")
 	    h.cmdPrint("route add default gw 192.168.2.1")
 
 def tests(net):
@@ -45,6 +48,7 @@ def simpleTest():
     print(net.hosts)
     #tests(net)
     net.pingAll()
+    CLI(net)
     net.stop()
 
 if __name__=="__main__":
