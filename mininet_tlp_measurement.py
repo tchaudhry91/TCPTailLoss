@@ -17,16 +17,22 @@ class BasicTopology(Topo):
 def configureHosts(net):
     for h in net.hosts:
         if h.name == "hostA":
-            h.setIP("10.0.0.3")
-            h.setDefaultRoute('hostA-eth0')
+            h.cmdPrint("ifconfig hostA-eth0 192.168.1.2 netmask 255.255.255.0")
+	    h.cmdPrint("route add default gw 192.168.1.1")
         elif h.name == "hostB":
-            h.setIP(ip="10.0.0.1", intf="hostB-eth0")
-            h.setIP(ip="10.0.0.2", intf="hostB-eth1")
-            h.setHostRoute(ip="10.0.0.3", intf="hostB-eth0")
-            h.setHostRoute(ip="10.0.0.4", intf="hostB-eth1")
+	    h.cmdPrint("ifconfig hostB-eth0 192.168.1.1 netmask 255.255.255.0")
+            h.cmdPrint("ifconfig hostB-eth1 192.168.2.1 netmask 255.255.255.0")
+	    h.cmdPrint("echo 1 > /proc/sys/net/ipv4/ip_forward") 
         elif h.name == "hostC":
-            h.setIP("10.0.0.4")
-            h.setDefaultRoute('hostC-eth0')
+            h.cmdPrint("ifconfig hostC-eth0 192.168.2.2 netmask 255.255.255.0")
+	    h.cmdPrint("route add default gw 192.168.2.1")
+
+def tests(net):
+    for h in net.hosts:
+        if h.name == "hostA":
+	    print(h.cmd("tracepath 192.168.2.2"))
+	if h.name == "hostC":
+            print(h.cmd("tracepath 192.168.1.2"))
 
 def simpleTest():
     "Create and test a simple network"
@@ -37,8 +43,9 @@ def simpleTest():
     print "Dumping host Connections"
     dumpNodeConnections(net.hosts)
     print(net.hosts)
+    #tests(net)
     net.pingAll()
-    net.stop
+    net.stop()
 
 if __name__=="__main__":
     setLogLevel('info')
