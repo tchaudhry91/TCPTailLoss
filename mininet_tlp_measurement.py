@@ -10,6 +10,7 @@ def start():
     configureHosts(net)
     net.start()
     net.pingAll()
+    net.stop()
 
 if __name__=="__main__":
     start()
