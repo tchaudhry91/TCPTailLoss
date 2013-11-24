@@ -8,20 +8,31 @@ class BasicTopology(Topo):
     def __init__(self, **opts):
         #Initialise
         Topo.__init__(self, **opts)
-        self.addHost('hostA',ip="10.0.0.3",defaultRoute="10.0.0.1")
-        Node hostB = Node('hostB')
-        hostB.addIntf('eth0')
-        hostB.addIntf('eth1')
-        hostB.setIP(ip="10.0.0.1",intf='eth0')
-        hostB.setIP(ip="10.0.0.2",intf='eth1')
-        self.addHost('hostC',ip="10.0.0.4",defaultRoute="10.0.0.2")
+        self.addHost('hostA')
+        self.addHost('hostB')
+        self.addHost('hostC')
         self.addLink(hostB,hostA)
         self.addLink(hostB,hostC)
+
+def configureHosts(net):
+    for h in net.hosts:
+        if h.name == "hostA":
+            h.setIP("10.0.0.3")
+            h.setDefaultRoute('eth0')
+        elif h.name == "hostB":
+            h.setIP(ip="10.0.0.1", intf="eth0")
+            h.setIP(ip="10.0.0.2", intf="eth1")
+            h.setHostRoute(ip="10.0.0.3", intf="eth0")
+            h.setHostRoute(ip="10.0.0.4", intf="eth1")
+        elif h.name == "hostC":
+            h.setIP("10.0.0.4")
+            h.setDefaultRoute('eth0')
 
 def simpleTest():
     "Create and test a simple network"
     topo = BasicTopology()
     net = Mininet(topo)
+    configureHosts(net)    
     net.start()
     print "Dumping host Connections"
     dumpNodeConnections(net.hosts)
