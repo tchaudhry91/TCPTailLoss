@@ -8,6 +8,7 @@ class BasicTopology(Topo):
         #Initialise
         Topo.__init__(self, **opts)
         hostA = self.addHost('hostA')
+        hostA.seIP('10.0.0.1')
         hostB = self.addHost('hostB')
         hostC = self.addHost('hostC')
         self.addLink(hostA,hostB)
