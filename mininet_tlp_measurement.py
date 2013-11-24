@@ -8,9 +8,13 @@ class BasicTopology(Topo):
     def __init__(self, **opts):
         #Initialise
         Topo.__init__(self, **opts)
-        self.addHost('hostA',ip="10.0.0.2",defaultRoute="10.0.0.1")
-        self.addHost('hostB',ip="10.0.0.1")
-        self.addHost('hostC',ip="10.0.0.3",defaultRoute="10.0.0.1")
+        self.addHost('hostA',ip="10.0.0.3",defaultRoute="10.0.0.1")
+        Node hostB = Node('hostB')
+        hostB.addIntf('eth0')
+        hostB.addIntf('eth1')
+        hostB.setIP(ip="10.0.0.1",intf='eth0')
+        hostB.setIP(ip="10.0.0.2",intf='eth1')
+        self.addHost('hostC',ip="10.0.0.4",defaultRoute="10.0.0.2")
         self.addLink(hostB,hostA)
         self.addLink(hostB,hostC)
 
