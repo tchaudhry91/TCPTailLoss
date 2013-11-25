@@ -24,7 +24,7 @@ def start():
     #Start Network and Measurement
     net.start()
     net.pingAll()
-    transferFileUsingNc6(net.get('hostA'),net.get('hostC'))
+    transferFileUsingNc6(net.get('hostA'),net.get('hostC'),args.TransferSize)
     net.stop()
 
 
@@ -35,7 +35,8 @@ def addArguments(parser):
     parser.add_argument("ConfigLink2",
                         help=("The Configuration of Link 2 -"+
                               " Fast/Moderate/Slow"))
-
+    parser.add_argument("TransferSize",
+                        help=("Short/Medium/Long"))
 
 if __name__=="__main__":
     start()
