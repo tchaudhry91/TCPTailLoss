@@ -24,12 +24,7 @@ def start():
     #Start Network and Measurement
     net.start()
     net.pingAll()
-<<<<<<< HEAD
     transferFileUsingNc6(net.get('hostA'),net.get('hostC'),args.TransferSize)
-=======
-    transferFileUsingNc6(net.get('hostA'),net.get('hostC'))
-    CLI(net)
->>>>>>> a95fbad634cfe06eef201b5bd620a2faec972b16
     net.stop()
 
 
