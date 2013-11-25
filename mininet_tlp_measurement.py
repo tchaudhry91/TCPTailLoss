@@ -3,7 +3,7 @@ from basic_topology import configureHosts
 from mininet.net import Mininet
 from mininet.link import TCLink
 from file_transfer import transferFileUsingNc6
-
+from mininet.cli import CLI
 import argparse
 
 def start():
@@ -24,7 +24,12 @@ def start():
     #Start Network and Measurement
     net.start()
     net.pingAll()
+<<<<<<< HEAD
     transferFileUsingNc6(net.get('hostA'),net.get('hostC'),args.TransferSize)
+=======
+    transferFileUsingNc6(net.get('hostA'),net.get('hostC'))
+    CLI(net)
+>>>>>>> a95fbad634cfe06eef201b5bd620a2faec972b16
     net.stop()
 
 
