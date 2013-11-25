@@ -1,6 +1,8 @@
 from basic_topology import BasicTopology
 from basic_topology import configureHosts
 from mininet.net import Mininet
+from mininet.link import TCLink
+from file_transfer import transferFileUsingNc6
 
 import argparse
 
@@ -16,12 +18,13 @@ def start():
     #Build Topology
     topo = BasicTopology(args.ConfigLink1,
                          args.ConfigLink2)
-    net = Mininet(topo)
+    net = Mininet(topo=topo, link=TCLink)
     configureHosts(net)
     
     #Start Network and Measurement
     net.start()
     net.pingAll()
+	transferFileUsingNc6(net.get('hostA'),net.get('hostC'))
     net.stop()
 
 

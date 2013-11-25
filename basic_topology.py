@@ -3,40 +3,41 @@ from mininet.net import Mininet
 from mininet.node import Node
 
 class BasicTopology(Topo):
-    def __init__(self, configLink1, configLink2, **opts):
-        #Initialise
-        if configLink1 == "fast":
-            self.bw = 1
-            self.delay = "5ms"
-        elif configLink1 == "moderate":
-            self.bw = 0.5
-            self.delay = "10ms"
-        elif configLink1 == "slow":
-            self.bw = 0.1
-            self.delay = "20ms"
+	def __init__(self, configLink1, configLink2,  **opts):
+        #Initialise	
+		if configLink1 == "fast":
+			self.bw = 1
+			self.delay = '5ms'
+		elif configLink1 == "moderate":
+			self.bw = 0.5
+			self.delay = '10ms'
+		elif configLink1 == "slow":
+			self.bw = 0.1
+			self.delay = '20ms'
+		
+		self.max_queue_size = 1500
+
+		linkOpts1 = dict(bw=self.bw, delay=self.delay,
+						max_queue_size=self.max_queue_size)
         
-        if configLink2 == "fast":
-            self.bw2 = 1 
-            self.delay2 = "5ms"
-        elif configLink2 == "moderate":
-            self.bw2 = 0.5
-            self.delay2 = "10ms"
-        elif configLink2 == "slow":
-            self.bw2 = 0.1
-            self.delay2 = "20ms"
+		if configLink2 == "fast":
+			self.bw2 = 1 
+			self.delay2 = '5ms'
+		elif configLink2 == "moderate":
+			self.bw2 = 0.5
+			self.delay2 = '10ms'
+		elif configLink2 == "slow":
+			self.bw2 = 0.1
+			self.delay2 = '20ms'
 
-        self.max_queue_size = 1500
-
-        Topo.__init__(self, **opts)
-        hostA = self.addHost('hostA')
-        hostB = self.addHost('hostB')
-        hostC = self.addHost('hostC')
-        self.addLink(hostB,hostA, bw=self.bw,
-                        delay=self.delay, 
-                        max_queue_size=self.max_queue_size)
-        self.addLink(hostB,hostC, bw=self.bw2,
-                        delay=self.delay2,
-                        max_queue_size=self.max_queue_size)
+		linkOpts2 = dict(bw=self.bw2, delay=self.bw2,
+						max_queue_size=self.max_queue_size)
+		Topo.__init__(self, **opts)
+		hostA = self.addHost('hostA')
+		hostB = self.addHost('hostB')
+		hostC = self.addHost('hostC')
+		self.addLink(hostB,hostA, **linkOpts1)
+		self.addLink(hostB,hostC, **linkOpts2)
 
 def configureHosts(net):
     for h in net.hosts:
