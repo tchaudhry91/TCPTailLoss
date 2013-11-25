@@ -4,6 +4,7 @@ from mininet.net import Mininet
 from mininet.link import TCLink
 from file_transfer import transferFileUsingNc6
 from mininet.cli import CLI
+from TCPDump import startDump
 import argparse
 
 def start():
@@ -24,6 +25,7 @@ def start():
     #Start Network and Measurement
     net.start()
     net.pingAll()
+    startDump(net.get('hostB'), args.FileName)
     transferFileUsingNc6(net.get('hostA'),net.get('hostC'),args.TransferSize)
     net.stop()
 
@@ -37,6 +39,8 @@ def addArguments(parser):
                               " Fast/Moderate/Slow"))
     parser.add_argument("TransferSize",
                         help=("Short/Medium/Long"))
+    parser.add_argument("DumpFileName",
+                        help=("The Name you want of the generated TCPDump file"))
 
 if __name__=="__main__":
     start()
