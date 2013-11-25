@@ -25,7 +25,7 @@ def start():
     #Start Network and Measurement
     net.start()
     net.pingAll()
-    startDump(net.get('hostB'), args.FileName)
+    startDump(net.get('hostB'), args.DumpFileName)
     transferFileUsingNc6(net.get('hostA'),net.get('hostC'),args.TransferSize)
     net.stop()
 
