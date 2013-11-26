@@ -27,8 +27,8 @@ The project here does the following :
 
     The second task to use nc6 for a file transfer is defined in the file
     'file_transfer.py'. 
-    The number of bytes to transfer is calculated as follows (MTU*Segments) -
-    (offset*segments). This is then sent over the network.
+    The number of bytes to transfer is calculated as follows (MTU*Segments).
+    This is then sent over the network.
 
     The third task involving creating a tcp dump is also created in a separate
     file TCPDump.py. The method here takes the argument of the filename to which 
