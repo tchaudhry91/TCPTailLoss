@@ -1,8 +1,9 @@
 import sys
 import nfqueue
+from socket import AF_NET
 
-payload_length = 0 
-drop_count = 0
+global payload_length = 0 
+global drop_count = 0
 
 def callback(handle, new_handle=None):
     """
@@ -11,13 +12,17 @@ def callback(handle, new_handle=None):
     if handle_new is not None:
         handle = handle_new
     print(handle)
+    handle.set_verdict(nfqueue.NF_ACCEPT)
+    
 
 if __name__=="__main__":
     global payload_length
     global drop_count
     payload_length = sys.argv[0]
     drop_count = sys.argv[1]
-    
+
     q = nfqueue.queue()
-    q.bind(0,callback)
+    family = AF_NET
+    q.setcallback(callback)
+    q.fast_open(0, family)
     q.run()

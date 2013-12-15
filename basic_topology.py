@@ -48,6 +48,8 @@ def configureHosts(net):
             h.cmdPrint("echo 1 > /proc/sys/net/ipv4/ip_forward") 
             h.setHostRoute(ip="192.168.1.2/24",intf="hostB-eth0")
             h.setHostRoute(ip="192.168.2.2/24",intf="hostB-eth1")
+            h.cmd("iptables -A FORWARD -i hostB-eth0 -o hostB-eth1 "+
+                        "-p tcp -j NFQUEUE --queue-num 0")
         elif h.name == "hostC":
             h.setIP(intf="hostC-eth0", ip="192.168.2.2/24")
             h.cmdPrint("route add default gw 192.168.2.1")
