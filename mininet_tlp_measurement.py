@@ -6,7 +6,6 @@ from file_transfer import transferFileUsingNc6
 from mininet.cli import CLI
 from TCPDump import startDump
 import argparse
-import os
 
 def start():
     """
@@ -27,10 +26,6 @@ def start():
     net.start()
     startDump(net.get('hostB'), args.DumpFileName)
     transferFileUsingNc6(net.get('hostA'),net.get('hostC'),args.TransferSize)
-    
-    #TailDrop
-    os.system("python drop_tail.py "+args.PayloadSize+" "+args.DropCount)
-
     net.stop()
 
 def addArguments(parser):
