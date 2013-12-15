@@ -15,10 +15,7 @@ class BasicTopology(Topo):
 			self.bw = 0.1
 			self.delay = '20ms'
 		
-		self.max_queue_size = 1500
-
 		linkOpts1 = dict(bw=self.bw, delay=self.delay,
-						max_queue_size=self.max_queue_size,
 						use_tbf=True)
         
 		if configLink2 == "fast":
@@ -32,7 +29,6 @@ class BasicTopology(Topo):
 			self.delay2 = '20ms'
 
 		linkOpts2 = dict(bw=self.bw2, delay=self.bw2,
-						max_queue_size=self.max_queue_size,
 						use_tbf=True)
 		Topo.__init__(self, **opts)
 		hostA = self.addHost('hostA')
