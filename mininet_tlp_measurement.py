@@ -6,6 +6,7 @@ from file_transfer import transferFileUsingNc6
 from mininet.cli import CLI
 from TCPDump import startDump
 import argparse
+import os
 
 def start():
     """
@@ -24,11 +25,13 @@ def start():
     
     #Start Network and Measurement
     net.start()
-    net.pingAll()
     startDump(net.get('hostB'), args.DumpFileName)
     transferFileUsingNc6(net.get('hostA'),net.get('hostC'),args.TransferSize)
-    net.stop()
+    
+    #TailDrop
+    os.system("python drop_tail.py "+args.PayloadSize+" "+args.DropCount)
 
+    net.stop()
 
 def addArguments(parser):
     parser.add_argument("ConfigLink1", 
@@ -41,6 +44,10 @@ def addArguments(parser):
                         help=("Short/Medium/Long"))
     parser.add_argument("DumpFileName",
                         help=("The Name you want of the generated TCPDump file"))
+    parser.add_argument("PayloadSize",
+                        help=("Argument for drop_tail, the size of Payload"))
+    parser.add_argument("DropCount",
+                        help=("Number of Segments to drop at the end"))
 
 if __name__=="__main__":
     start()
