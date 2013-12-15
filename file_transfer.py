@@ -2,12 +2,11 @@ from mininet.node import Host
 
 def transferFileUsingNc6(hostA,hostC,transferSize):
     if transferSize == "short":
-        bytesT = (1500*64)
+        count = 64
     elif transferSize == "medium":
-        bytesT = (1500*128)
+        count = 128
     elif transferSize == "long":
-        bytesT = (1500*256)
-    hostA.cmd("dd if=/dev/zero of=temp count="+str(bytesT)+" bs=1")
-    hostA.cmd("nc6 -X -l -p 7676 < temp &")
+        count = 256
+    read_cmd = "dd if=/dev/zero count="+count+" bs=1448")
+    hostA.cmd(read_cmd+" | nc6 -X -l -p 7676 &")
     hostC.cmd("nc6 -X 192.168.1.2 7676 > /dev/null")
-    hostA.cmd("rm temp")
