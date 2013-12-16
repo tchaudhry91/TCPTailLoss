@@ -42,8 +42,8 @@ def buildDropRange(drop_count, payload_length):
 
 
 if __name__ == "__main__":
-    payload_length = sys.argv[1]
-    drop_count = int(sys.argv[2])
+    payload_length = int(sys.argv[2])
+    drop_count = int(sys.argv[1])
     print("Started")
     buildDropRange(drop_count, payload_length)
     q = nfqueue.queue()
