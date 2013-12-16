@@ -27,6 +27,10 @@ def callback(handle, new_handle=None):
                 sys.stderr.write(str(count))
                 drop_count = drop_count - 1
                 handle.set_verdict(nfqueue.NF_DROP)
+            else:
+                handle.set_verdict(nfqueue.NF_ACCEPT)
+        else:
+            handle.set_verdict(nfqueue.NF_ACCEPT)
     else:
         handle.set_verdict(nfqueue.NF_ACCEPT)
 
