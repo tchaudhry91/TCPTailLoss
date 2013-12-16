@@ -25,9 +25,7 @@ def callback(handle, new_handle=None):
         count = count + 1
         if drop_count > 0:
             if count in drop_range:
-                sys.stderr.write(str(count))
                 drop_count = drop_count - 1
-                sys.stderr.write(str(drop_count))
                 if drop_count == 0:
                     is_last = True
                 handle.set_verdict(nfqueue.NF_DROP)
@@ -37,10 +35,8 @@ def callback(handle, new_handle=None):
             handle.set_verdict(nfqueue.NF_ACCEPT)
     elif is_last is True:
         is_last = False
-        sys.stderr.write(str(handle.get_length()) + "L")
         handle.set_verdict(nfqueue.NF_DROP)
     else:
-        sys.stderr.write(str(handle.get_length()) + "A")
         handle.set_verdict(nfqueue.NF_ACCEPT)
 
 
