@@ -4,6 +4,7 @@ from socket import AF_INET
 
 count = 0 
 dropped = False
+drop_count = 0
 
 def callback(handle, new_handle=None):
     """
@@ -11,11 +12,14 @@ def callback(handle, new_handle=None):
     """
     global count
     global dropped
+    global drop_count
     count = count + 1
     if new_handle is not None:
         handle = new_handle
     if count > 50 and dropped != True:
-        dropped = True
+        drop_count = drop_count - 1
+        if drop_count == 0:
+            dropped = True
         handle.set_verdict(nfqueue.NF_DROP)
     handle.set_verdict(nfqueue.NF_ACCEPT)
 
