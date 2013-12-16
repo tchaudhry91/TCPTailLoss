@@ -3,15 +3,19 @@ import nfqueue
 from socket import AF_INET
 
 count = 0 
+dropped = False
+
 def callback(handle, new_handle=None):
     """
         This function causes Tail Drop
     """
     global count
+    global dropped
     count = count + 1
     if new_handle is not None:
         handle = new_handle
-    if count > 50:
+    if count > 50 and dropped != True:
+        dropped = True
         handle.set_verdict(nfqueue.NF_DROP)
     handle.set_verdict(nfqueue.NF_ACCEPT)
 
