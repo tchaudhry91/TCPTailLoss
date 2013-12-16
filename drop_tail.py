@@ -6,6 +6,7 @@ dropped = False
 drop_count = 0
 count = 0
 drop_range = []
+is_last = False
 
 
 def callback(handle, new_handle=None):
@@ -16,22 +17,30 @@ def callback(handle, new_handle=None):
     global dropped
     global drop_count
     global count
+    global is_last
 
     if new_handle is not None:
         handle = new_handle
-
-    if handle.get_length() == 1448:
+    if handle.get_length() == 1500:
         count = count + 1
         if drop_count > 0:
             if count in drop_range:
                 sys.stderr.write(str(count))
                 drop_count = drop_count - 1
+                sys.stderr.write(str(drop_count))
+                if drop_count == 0:
+                    is_last = True
                 handle.set_verdict(nfqueue.NF_DROP)
             else:
                 handle.set_verdict(nfqueue.NF_ACCEPT)
         else:
             handle.set_verdict(nfqueue.NF_ACCEPT)
+    elif is_last is True:
+        is_last = False
+        sys.stderr.write(str(handle.get_length()) + "L")
+        handle.set_verdict(nfqueue.NF_DROP)
     else:
+        sys.stderr.write(str(handle.get_length()) + "A")
         handle.set_verdict(nfqueue.NF_ACCEPT)
 
 
@@ -44,6 +53,8 @@ def buildDropRange(drop_count, payload_length):
 
     while drop_count > 0:
         toDrop = payload_length/1448
+        drop_count = drop_count - 1
+        payload_length = payload_length - 1448
         drop_range.append(toDrop)
 
 
