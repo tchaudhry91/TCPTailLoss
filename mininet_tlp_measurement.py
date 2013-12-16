@@ -8,6 +8,7 @@ from TCPDump import startDump
 import time
 import argparse
 
+
 def start():
     """
         Initiate a MininetTLPMeasurementSession.
@@ -22,7 +23,7 @@ def start():
                          args.ConfigLink2)
     net = Mininet(topo=topo, link=TCLink)
     configureHosts(net)
-    
+
     #Start Network and Measurement
     net.start()
     time.sleep(1)
@@ -30,29 +31,32 @@ def start():
 
     #Start DropTail
     hostB = net.get('hostB')
-    hostB.cmd("python drop_tail.py "+args.PayloadSize+" "+args.DropCount+
-               " > output.txt 2>error.txt &")
+    hostB.cmd("python drop_tail.py " + args.PayloadSize +
+              " " + args.DropCount +
+              " > output.txt 2>error.txt &")
 
     #Start Transfer
-    transferFileUsingNc6(net.get('hostA'),net.get('hostC'),args.TransferSize)
+    transferFileUsingNc6(net.get('hostA'), net.get('hostC'),
+                         args.TransferSize)
     time.sleep(1)
     net.stop()
 
+
 def addArguments(parser):
-    parser.add_argument("ConfigLink1", 
-                        help=("The Configuration Of Link 1 -"+
+    parser.add_argument("ConfigLink1",
+                        help=("The Configuration Of Link 1 -" +
                               " Fast/Moderate/Slow"))
     parser.add_argument("ConfigLink2",
-                        help=("The Configuration of Link 2 -"+
+                        help=("The Configuration of Link 2 -" +
                               " Fast/Moderate/Slow"))
     parser.add_argument("TransferSize",
                         help=("Short/Medium/Long"))
     parser.add_argument("DumpFileName",
-                        help=("The Name you want of the generated TCPDump file"))
+                        help=("The Name you want of the generated TCPDump"))
     parser.add_argument("PayloadSize",
                         help=("Argument for drop_tail, the size of Payload"))
     parser.add_argument("DropCount",
                         help=("Number of Segments to drop at the end"))
 
-if __name__=="__main__":
+if __name__ == "__main__":
     start()
