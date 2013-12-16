@@ -25,10 +25,8 @@ def callback(handle, new_handle=None):
     handle.set_verdict(nfqueue.NF_ACCEPT)
 
 if __name__ == "__main__":
-    global payload_length
-    global drop_count
     payload_length = sys.argv[0]
-    drop_count = sys.argv[1]
+    drop_count = int(sys.argv[1])
     print("Started")
     q = nfqueue.queue()
     family = AF_INET
