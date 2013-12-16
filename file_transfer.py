@@ -9,4 +9,4 @@ def transferFileUsingNc6(hostA,hostC,transferSize):
         count = 256
     read_cmd = "dd if=/dev/zero count="+str(count)+" bs=1448"
     hostA.cmd(read_cmd+" | nc6 -X -l -p 7676 &")
-    hostC.cmd("nc6 -X 192.168.1.2 7676 > /dev/null ")
+    hostC.cmd("nc6 -X 192.168.1.2 7676 > /dev/null &")

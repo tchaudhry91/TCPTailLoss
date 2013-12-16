@@ -5,6 +5,7 @@ from mininet.link import TCLink
 from file_transfer import transferFileUsingNc6
 from mininet.cli import CLI
 from TCPDump import startDump
+import time
 import argparse
 
 def start():
@@ -24,15 +25,17 @@ def start():
     
     #Start Network and Measurement
     net.start()
+    time.sleep(1)
     startDump(net.get('hostB'), args.DumpFileName)
 
     #Start DropTail
     hostB = net.get('hostB')
-    hostB.cmd("python drop_tail.py "+args.PayloadSize+
-                " "+args.DropCount)
+    hostB.cmd("python drop_tail.py "+args.PayloadSize+" "+args.DropCount+
+               " > output.txt 2>error.txt &")
 
     #Start Transfer
     transferFileUsingNc6(net.get('hostA'),net.get('hostC'),args.TransferSize)
+    time.sleep(1)
     net.stop()
 
 def addArguments(parser):
