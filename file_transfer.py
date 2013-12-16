@@ -1,6 +1,7 @@
 from mininet.node import Host
 
-def transferFileUsingNc6(hostA,hostC,transferSize):
+
+def transferFileUsingNc6(hostA, hostC, transferSize):
     if transferSize == "short":
         count = 64
     elif transferSize == "medium":
