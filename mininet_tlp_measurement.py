@@ -3,6 +3,7 @@ from basic_topology import configureHosts
 from mininet.net import Mininet
 from mininet.link import TCLink
 from file_transfer import transferFileUsingNc6
+from file_transfer import getPayloadSize
 from mininet.cli import CLI
 from TCPDump import startDump
 import time
@@ -32,8 +33,8 @@ def start():
     #Start DropTail
     hostB = net.get('hostB')
     hostB.cmd("python drop_tail.py " + args.PayloadSize +
-              " " + args.DropCount +
-              " > output.txt 2>error.txt &")
+              " " + getPayloadSize(args.TransferSize) +
+              " 2>error.txt &")
 
     #Start Transfer
     transferFileUsingNc6(net.get('hostA'), net.get('hostC'),
@@ -53,8 +54,6 @@ def addArguments(parser):
                         help=("Short/Medium/Long"))
     parser.add_argument("DumpFileName",
                         help=("The Name you want of the generated TCPDump"))
-    parser.add_argument("PayloadSize",
-                        help=("Argument for drop_tail, the size of Payload"))
     parser.add_argument("DropCount",
                         help=("Number of Segments to drop at the end"))
 
