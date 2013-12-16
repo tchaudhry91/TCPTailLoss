@@ -24,6 +24,7 @@ def callback(handle, new_handle=None):
         count = count + 1
         if drop_count > 0:
             if count in drop_range:
+                sys.stderr.write(str(count))
                 handle.set_verdict(nfqueue.NF_DROP)
     else:
         handle.set_verdict(nfqueue.NF_ACCEPT)

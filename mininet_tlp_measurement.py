@@ -33,7 +33,7 @@ def start():
     #Start DropTail
     hostB = net.get('hostB')
     hostB.cmd("python drop_tail.py " + args.DropCount +
-              " " + getPayloadSize(args.TransferSize) +
+              " " + str(getPayloadSize(args.TransferSize)) +
               " 2>error.txt &")
 
     #Start Transfer
