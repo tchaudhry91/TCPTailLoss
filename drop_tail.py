@@ -19,14 +19,15 @@ def callback(handle, new_handle=None):
         handle = new_handle
     if count > 50 and dropped is not True:
         drop_count = drop_count - 1
+        sys.stderr.write(str(drop_count))
         if drop_count == 0:
             dropped = True
         handle.set_verdict(nfqueue.NF_DROP)
     handle.set_verdict(nfqueue.NF_ACCEPT)
 
 if __name__ == "__main__":
-    payload_length = sys.argv[0]
-    drop_count = int(sys.argv[1])
+    payload_length = sys.argv[1]
+    drop_count = int(sys.argv[2])
     print("Started")
     q = nfqueue.queue()
     family = AF_INET
