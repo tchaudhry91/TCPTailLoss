@@ -11,10 +11,7 @@ def callback(handle, new_handle=None):
     count = count + 1
     if new_handle is not None:
         handle = new_handle
-    if count > 10:
-        handle.set_verdict(nfqueue.NF_DROP)
-    else:
-        handle.set_verdict(nfqueue.NF_ACCEPT)
+    handle.set_verdict(nfqueue.NF_ACCEPT)
 
 if __name__=="__main__":
     global payload_length

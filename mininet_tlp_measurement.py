@@ -25,6 +25,13 @@ def start():
     #Start Network and Measurement
     net.start()
     startDump(net.get('hostB'), args.DumpFileName)
+
+    #Start DropTail
+    hostB = net.get('hostB')
+    hostB.cmd("python drop_tail.py "+args.PayloadSize+
+                " "+args.DropCount)
+
+    #Start Transfer
     transferFileUsingNc6(net.get('hostA'),net.get('hostC'),args.TransferSize)
     net.stop()
 

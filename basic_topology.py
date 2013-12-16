@@ -50,7 +50,6 @@ def configureHosts(net):
             h.setHostRoute(ip="192.168.2.2/24",intf="hostB-eth1")
             h.cmd("iptables -A FORWARD -i hostB-eth0 -o hostB-eth1 "+
                         "-p tcp -j NFQUEUE --queue-num 0")
-            h.cmd("python drop_tail.py 1448 10 >output.txt 2>error.txt &")
         elif h.name == "hostC":
             h.setIP(intf="hostC-eth0", ip="192.168.2.2/24")
             h.cmdPrint("route add default gw 192.168.2.1")
