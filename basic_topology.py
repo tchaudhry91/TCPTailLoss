@@ -6,26 +6,26 @@ from mininet.node import Node
 class BasicTopology(Topo):
     def __init__(self, configLink1, configLink2,  **opts):
         #Initialise
-        if configLink1 == "fast":
+        if configLink1.lower() == "fast":
             self.bw = 1
             self.delay = '5ms'
-        elif configLink1 == "moderate":
+        elif configLink1.lower() == "moderate":
             self.bw = 0.5
             self.delay = '10ms'
-        elif configLink1 == "slow":
+        elif configLink1.lower() == "slow":
             self.bw = 0.1
             self.delay = '20ms'
 
         linkOpts1 = dict(bw=self.bw, delay=self.delay,
                          use_tbf=True)
 
-        if configLink2 == "fast":
+        if configLink2.lower() == "fast":
             self.bw2 = 1
             self.delay2 = '5ms'
-        elif configLink2 == "moderate":
+        elif configLink2.lower() == "moderate":
             self.bw2 = 0.5
             self.delay2 = '10ms'
-        elif configLink2 == "slow":
+        elif configLink2.lower() == "slow":
             self.bw2 = 0.1
             self.delay2 = '20ms'
 
