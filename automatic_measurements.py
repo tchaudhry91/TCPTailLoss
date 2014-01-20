@@ -24,9 +24,9 @@ def measure(TLP_VALUE):
                                     "dump.pcap", str(drop_count)])
                     out = subprocess.check_output(["python", "tcp_analysis.py",
                                                   "dump.pcap"])
-                    f_name_current = (f_name + link_speed + "_" +
-                                      payload_length +
-                                      "_" + str(drop_count))
+                    f_name_current = f_name + link_speed + "_"
+                    f_name_current += payload_length + "_"
+                    f_name_current += str(drop_count)
                     print(out)
                     print(f_name_current)
                     subprocess.call(["echo", out, ">>", "Recordings/" +
