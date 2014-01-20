@@ -20,7 +20,8 @@ def measure(TLP_VALUE):
         for payload_length in payload_lengths:
             for drop_count in drop_counts:
                 for i in range(10):
-                    subprocess.call(["python", "mininet_tlp_measurement.py",
+                    out = ''
+                    subprocess.call(["python2", "mininet_tlp_measurement.py",
                                     link_speed, link_speed, payload_length,
                                     "dump.pcap", str(drop_count)])
                     try:
