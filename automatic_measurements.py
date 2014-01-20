@@ -8,6 +8,7 @@ def measure(TLP_VALUE):
     """
     subprocess.call(["sudo", "sysctl", "-w",
                     "net.ipv4.tcp_early_retrans="+TLP_VALUE])
+    f_name = "TLP"
     if TLP_VALUE == 2:
         f_name = "TLP"
     elif TLP_VALUE == 3:
