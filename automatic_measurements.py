@@ -4,15 +4,15 @@ import subprocess
 def measure(TLP_VALUE):
     """Record the output for all the possible configurations.
         Each Analysis Output is saved in a separate file with
-        10 entries for each configuration.
+        10-15 entries for each configuration.
     """
     subprocess.call(["sudo", "sysctl", "-w",
                     "net.ipv4.tcp_early_retrans="+TLP_VALUE])
     f_name = "TLP"
     if TLP_VALUE == 2:
-        f_name = "TLP"
-    elif TLP_VALUE == 3:
         f_name = "NoTLP"
+    elif TLP_VALUE == 3:
+        f_name = "TLP"
     link_speeds = ["fast", "moderate", "slow"]
     payload_lengths = ["long", "medium", "short"]
     drop_counts = [1, 2, 4, 8]
@@ -23,8 +23,12 @@ def measure(TLP_VALUE):
                     subprocess.call(["python", "mininet_tlp_measurement.py",
                                     link_speed, link_speed, payload_length,
                                     "dump.pcap", str(drop_count)])
-                    out = subprocess.check_output(["python", "tcp_analysis.py",
-                                                  "dump.pcap"])
+                    try:
+                        out = subprocess.check_output(["python",
+                                                      "tcp_analysis.py",
+                                                      "dump.pcap"])
+                    except:
+                        print "Error"
                     f_name_current = f_name + link_speed + "_"
                     f_name_current += payload_length + "_"
                     f_name_current += str(drop_count)

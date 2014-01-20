@@ -1,5 +1,10 @@
 from mininet.node import Host
 
 
+pid = ''
+
+
 def startDump(hostB, fileName):
-    hostB.cmd("tcpdump -w "+fileName+" -i hostB-eth0 -s 68 -p &")
+    global pid
+    pid = hostB.cmd("tcpdump -w "+fileName+" -i hostB-eth0 -s 68 -p &")
+    print(pid)
