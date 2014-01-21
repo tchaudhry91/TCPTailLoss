@@ -8,11 +8,11 @@ def measure(TLP_VALUE):
     """
     subprocess.call(["sudo", "sysctl", "-w",
                     "net.ipv4.tcp_early_retrans="+TLP_VALUE])
-    f_name = "TLP"
-    if TLP_VALUE == 2:
-        f_name = "NoTLP"
-    elif TLP_VALUE == 3:
-        f_name = "TLP"
+    f_name = "Recordings"
+    if TLP_VALUE == "2":
+        f_name += "/NoTLP"
+    elif TLP_VALUE == "3":
+        f_name = "/TLP"
     link_speeds = ["fast", "moderate", "slow"]
     payload_lengths = ["long", "medium", "short"]
     drop_counts = [1, 2, 4, 8]
@@ -33,10 +33,11 @@ def measure(TLP_VALUE):
                     f_name_current = f_name + link_speed + "_"
                     f_name_current += payload_length + "_"
                     f_name_current += str(drop_count)
-                    print(out)
+                    f_write = open(f_name_current, "a")
                     print(f_name_current)
-                    subprocess.call(["echo", out, ">>", "Recordings/" +
-                                    f_name_current])
+                    print(out)
+                    f_write.write(out)
+                    f_write.close()
 
 
 if __name__ == "__main__":
