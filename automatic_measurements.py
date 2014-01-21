@@ -7,14 +7,12 @@ def measure(TLP_VALUE, category_1, category_2):
         Each Analysis Output is saved in a separate file with
         10-15 entries for each configuration.
     """
-    subprocess.call(["sudo", "sysctl", "-w",
-                    "net.ipv4.tcp_early_retrans="+TLP_VALUE])
     f_name = "Recordings"
     link_speeds = []
     payload_lengths = []
-    if TLP_VALUE == "2":
+    if TLP_VALUE == "disabled":
         f_name += "/NoTLP"
-    elif TLP_VALUE == "3":
+    elif TLP_VALUE == "enabled":
         f_name += "/TLP"
 
     if category_1 == "all":
