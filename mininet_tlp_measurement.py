@@ -6,6 +6,7 @@ from file_transfer import transferFileUsingNc6
 from file_transfer import getPayloadSize
 from mininet.cli import CLI
 from TCPDump import startDump
+from TCPDump import stopDump
 import time
 import argparse
 
@@ -39,6 +40,7 @@ def start():
     #Start Transfer
     transferFileUsingNc6(net.get('hostA'), net.get('hostC'),
                          args.TransferSize)
+    stopDump(net.get('hostB'))
     time.sleep(1)
     net.stop()
 
