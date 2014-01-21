@@ -15,7 +15,7 @@ def measure(TLP_VALUE, category_1, category_2):
     if TLP_VALUE == "2":
         f_name += "/NoTLP"
     elif TLP_VALUE == "3":
-        f_name = "/TLP"
+        f_name += "/TLP"
 
     if category_1 == "all":
         link_speeds = ["fast", "moderate", "slow"]
