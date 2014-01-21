@@ -38,7 +38,21 @@ def measure(TLP_VALUE, category_1, category_2):
     for link_speed in link_speeds:
         for payload_length in payload_lengths:
             for drop_count in drop_counts:
-                for i in range(10):
+                f_name_current = f_name + link_speed + "_"
+                f_name_current += payload_length + "_"
+                f_name_current += str(drop_count)
+                try:
+                    f_read = open(f_name_current)
+                    if f_read.read().count('\n') == 10:
+                        print("Skip " + f_name_current)
+                        continue
+                    else:
+                        print("Refresh " + f_name_current)
+                        w = open(f_name_current, "w")
+                        w.close()
+                except:
+                    pass
+                for a in range(10):
                     out = ''
                     subprocess.call(["python2", "mininet_tlp_measurement.py",
                                     link_speed, link_speed, payload_length,
@@ -49,9 +63,6 @@ def measure(TLP_VALUE, category_1, category_2):
                                                       "dump.pcap"])
                     except:
                         print "Error"
-                    f_name_current = f_name + link_speed + "_"
-                    f_name_current += payload_length + "_"
-                    f_name_current += str(drop_count)
                     f_write = open(f_name_current, "a")
                     print(f_name_current)
                     print(out)
