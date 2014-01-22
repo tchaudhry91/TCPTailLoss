@@ -40,7 +40,10 @@ def start():
     #Start Transfer
     transferFileUsingNc6(net.get('hostA'), net.get('hostC'),
                          args.TransferSize)
+
+    #Kill Additional Processes
     stopDump(net.get('hostB'))
+    hostB.cmd("pkill -9 -f drop_tail.py")
     time.sleep(1)
     net.stop()
 
