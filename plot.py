@@ -32,6 +32,7 @@ def plotAll():
         e.g fast_long_compl.png
             fast_long_retrans.png  
     """
+    initFigure()
     name_base = "Recordings/"
     TLP_status = ["TLP", "NoTLP"]
     link_speeds = ["fast", "moderate", "slow"]
@@ -39,7 +40,6 @@ def plotAll():
     drop_counts = [1, 2, 4, 8]
     for link_speed in link_speeds:
         for payload in payloads:
-            initFigure()
             data_c_list = []
             data_r_list = []
             for drop_count in drop_counts:
@@ -66,8 +66,8 @@ def plotAll():
                         data[i] = data[i].split("\t")
                         data_c[pos].append(float(data[i][0]))
                         data_r[pos].append(float(data[i][1]))
-                    data_c_list.append(data_c)
-                    data_r_list.append(data_r)
+                data_c_list.append(data_c)
+                data_r_list.append(data_r)
             #Ready To Plot
             plotIndividual(data_c_list, "comp", plot_name)
             plotIndividual(data_r_list, "retrans", plot_name)
@@ -88,6 +88,8 @@ def plotIndividual(data, option, f_name):
         One for Completion Time
         One for Retransmission
     """
+    global ax
+    ax = axes()
     ymin = 1000
     ymax = 0
     for d in data:
