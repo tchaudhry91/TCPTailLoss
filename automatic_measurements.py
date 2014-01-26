@@ -5,7 +5,7 @@ import sys
 def measure(TLP_VALUE, category_1, category_2):
     """Record the output for all the possible configurations.
         Each Analysis Output is saved in a separate file with
-        10-15 entries for each configuration.
+        10 entries for each configuration.
     """
     f_name = "Recordings"
     link_speeds = []
