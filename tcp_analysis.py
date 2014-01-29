@@ -21,19 +21,30 @@ def getCompletionTime(filtered_pkts):
 
 
 def getRetransmissionTime(filtered_pkts):
-    """Returns the time taken for retransmission of the FIRST
-        lost data packet.
+    """Returns the time taken for retransmission of a packet from
+        the time of the first lost data packet.
         This is achieved by keeping track of sequence numbers,
-        first packet with a retransmission (i.e. same seq)
+        first packet with a retransmission, and the first lost.
     """
+    first_lost_seq = ''
+    first_lost = 0
+    first_retrans = 0
     seq_list = []
+    retrans = False
     for ts, pkt in filtered_pkts:
         if pkt.data.len == 1500 and pkt.data.data.sport == 7676:
             for ts_e, pkt_e in seq_list:
                 if pkt.data.data.seq == pkt_e.data.data.seq:
-                    return (ts - ts_e)
+                    if retrans is False:
+                        first_retrans = ts
+                        first_lost = ts_e
+                        first_lost_seq = pkt_e.data.data.seq
+                        retrans = True
+                    elif pkt_e.data.data.seq < first_lost_seq:
+                        first_lost_seq = pkt_e.data.data.seq
+                        first_lost = ts_e
             seq_list.append((ts, pkt))
-    return 0
+    return first_retrans - first_lost
 
 
 if __name__ == "__main__":
