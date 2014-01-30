@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import os
 
 
 def measure(TLP_VALUE, category_1, category_2):
@@ -11,8 +12,10 @@ def measure(TLP_VALUE, category_1, category_2):
     link_speeds = []
     payload_lengths = []
     if TLP_VALUE == "disabled":
+        os.system("sudo sysctl net.ipv4.tcp_early_retrans=2")
         f_name += "/NoTLP"
     elif TLP_VALUE == "enabled":
+        os.system("sudo sysctl net.ipv4 tcp_early_retrans=3")
         f_name += "/TLP"
 
     if category_1 == "all":
